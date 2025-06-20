@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+import Body from "./components/Body";
 
 function App() {
   return (
-    <>
-      <h1>Namste mahi</h1>
-    </>
+    <div>
+      <Body />
+    </div>
   );
 }
 
