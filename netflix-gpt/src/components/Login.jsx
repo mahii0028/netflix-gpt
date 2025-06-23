@@ -2,6 +2,15 @@ import React, { useState, useRef } from "react";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import formValidate from "../util/formValidate";
+import { firebaseAuth } from "../util/firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/slices/userSlice";
+import { USER_AVATAR } from "../util/constants";
 
 const Login = () => {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -9,12 +18,14 @@ const Login = () => {
   const fullNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const dispatch = useDispatch();
 
   const toggleSignIn = () => {
     setIsSignIn((prev) => !prev);
   };
 
-  const formSubmitHandler = () => {
+  const formSubmitHandler = async (e) => {
+    e.preventDefault();
     const fullNameValue = fullNameRef.current.value;
     const emailValue = emailRef.current.value;
     const passwordValue = passwordRef.current.value;
@@ -25,6 +36,49 @@ const Login = () => {
       isSignIn
     );
     setErrors(formErrors);
+    if (Object.keys(formErrors).length !== 0) return;
+
+    try {
+      if (!isSignIn) {
+        const userCredential = await createUserWithEmailAndPassword(
+          firebaseAuth,
+          emailValue,
+          passwordValue
+        );
+        const signUpUser = userCredential.user;
+        await updateProfile(signUpUser, {
+          email: emailValue,
+          displayName: fullNameValue,
+          photoURL: USER_AVATAR,
+        });
+        const { uid, email, displayName } = firebaseAuth.currentUser;
+        dispatch(
+          addUser({
+            uid: uid,
+            email: email,
+            displayName: displayName,
+            photoURL: USER_AVATAR,
+          })
+        );
+      } else {
+        const userCredential = await signInWithEmailAndPassword(
+          firebaseAuth,
+          emailValue,
+          passwordValue
+        );
+        const signInUser = userCredential.user;
+        console.log("signInUser", signInUser);
+      }
+    } catch (error) {
+      const errorMap = {
+        "auth/email-already-in-use": "This email is already registered.",
+        "auth/invalid-email": "Invalid email address.",
+        "auth/weak-password": "Password should be at least 6 characters.",
+        "auth/user-not-found": "No user found with this email.",
+        "auth/wrong-password": "Incorrect password.",
+      };
+      setErrors({ firebase: errorMap[error.code] || "Authentication failed" });
+    }
   };
 
   return (
@@ -84,6 +138,11 @@ const Login = () => {
         />
         {errors.password && (
           <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+        )}
+        {errors.firebase && (
+          <p className="text-red-500 text-sm mt-2 text-center">
+            {errors.firebase}
+          </p>
         )}
         <button
           onClick={formSubmitHandler}
