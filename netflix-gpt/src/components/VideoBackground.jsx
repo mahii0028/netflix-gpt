@@ -7,16 +7,16 @@ const VideoBackground = ({ movieId }) => {
   useMovieTrailer(movieId);
 
   if (!trailerVideo) return null;
+  console.log("trailerVideo", trailerVideo);
 
   return (
-    <div className="absolute top-0 left-0 w-full aspect-video -z-10">
+    <div className="absolute top-0 left-0 w-full aspect-video z-10">
       <iframe
         className="w-full h-full"
         src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&enablejsapi=1`}
         title="Netflix Movie Trailer"
         allow="autoplay; encrypted-media"
         allowFullScreen
-        frameBorder="0"
       ></iframe>
     </div>
   );

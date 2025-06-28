@@ -8,7 +8,7 @@ const SecondaryContainer = () => {
   if (!movies) return null;
 
   return (
-    <div className="bg-black mt-[-4rem] relative z-10 pb-10">
+    <div className="bg-black mt-[10rem] relative z-10 pb-10">
       {movies.nowPlayingMovies?.results?.length > 0 && (
         <MovieList title="Now Playing" movies={movies.nowPlayingMovies} />
       )}

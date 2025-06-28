@@ -96,7 +96,7 @@ const Login = () => {
 
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="absolute w-full max-w-md p-14 bg-black bg-opacity-75 my-24 mx-auto left-0 right-0 text-white rounded-md transition-all duration-300"
+        className="absolute w-full max-w-sm sm:max-w-md p-6 sm:p-10 bg-black bg-opacity-75 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white rounded-md"
       >
         <h1 className="font-bold text-3xl mb-6">
           {isSignIn ? "Sign In" : "Sign Up"}

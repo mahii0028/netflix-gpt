@@ -19,3 +19,10 @@ export const API_OPTIONS = {
       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjYWQ2MDk1MmE1ZGQ2NTZlNDJjNmFjZDI0YjNkN2RjYyIsIm5iZiI6MTcxMjAzNDg0MS4yNzEwMDAxLCJzdWIiOiI2NjBiOTQxOTE1ZGVhMDAxN2MzNDRiOTIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.8ZJu-egX3l9i-IIghh48HuDjp91o64ggsajeSwgyu_E",
   },
 };
+
+export const SUPPORTED_LANGUAGES = [
+  { value: "kannada", name: "Kannad" },
+  { value: "en", name: "English" },
+  { value: "hindi", name: "Hindi" },
+  { value: "telugu", name: "Telugu" },
+];
