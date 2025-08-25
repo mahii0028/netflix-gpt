@@ -27,5 +27,4 @@ export const SUPPORTED_LANGUAGES = [
   { value: "telugu", name: "Telugu" },
 ];
 
-export const OPEN_AI_KEY =
-  "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";
+export const OPENAI_KEY = import.meta.env.VITE_OPENAI_KEY;
